@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WACC Calculator - Weighted Average Cost of Capital</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+        }
+
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 5px;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 1em;
+        }
+
+        .info-box p {
+            color: #555;
+            font-size: 0.85em;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .unit {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-weight: 600;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .reset-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .reset-btn:hover {
+            background: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result h2 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .result .value {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .result .breakdown {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: left;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+            font-size: 0.9em;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: none;
+            border-left: 4px solid #c62828;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .result .value {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WACC Calculator</h1>
+        <p class="subtitle">Weighted Average Cost of Capital</p>
+
+        <div class="info-box">
+            <h3>What is WACC?</h3>
+            <p>WACC represents the average rate a company expects to pay to finance its assets. It's calculated as: <strong>WACC = (E/V × Re) + (D/V × Rd × (1 - Tc))</strong></p>
+        </div>
+
+        <form id="waccForm">
+            <div class="form-group">
+                <label for="equity">Market Value of Equity (E)</label>
+                <div class="input-group">
+                    <input type="number" id="equity" step="0.01" min="0" required>
+                    <span class="unit">$</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="debt">Market Value of Debt (D)</label>
+                <div class="input-group">
+                    <input type="number" id="debt" step="0.01" min="0" required>
+                    <span class="unit">$</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="costOfEquity">Cost of Equity (Re)</label>
+                <div class="input-group">
+                    <input type="number" id="costOfEquity" step="0.01" min="0" max="100" required>
+                    <span class="unit">%</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="costOfDebt">Cost of Debt (Rd)</label>
+                <div class="input-group">
+                    <input type="number" id="costOfDebt" step="0.01" min="0" max="100" required>
+                    <span class="unit">%</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="taxRate">Corporate Tax Rate (Tc)</label>
+                <div class="input-group">
+                    <input type="number" id="taxRate" step="0.01" min="0" max="100" required>
+                    <span class="unit">%</span>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="calculate-btn">Calculate WACC</button>
+                <button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
+            </div>
+        </form>
+
+        <div id="error" class="error"></div>
+
+        <div id="result" class="result">
+            <h2>Your WACC is:</h2>
+            <div class="value" id="waccValue">0.00%</div>
+            <div class="breakdown">
+                <div class="breakdown-item">
+                    <span>Total Value (V):</span>
+                    <span id="totalValue">$0.00</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Equity Weight (E/V):</span>
+                    <span id="equityWeight">0.00%</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>Debt Weight (D/V):</span>
+                    <span id="debtWeight">0.00%</span>
+                </div>
+                <div class="breakdown-item">
+                    <span>After-Tax Cost of Debt:</span>
+                    <span id="afterTaxDebt">0.00%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('waccForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateWACC();
+        });
+
+        function calculateWACC() {
+            // Hide previous results and errors
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+
+            // Get input values
+            const equity = parseFloat(document.getElementById('equity').value);
+            const debt = parseFloat(document.getElementById('debt').value);
+            const costOfEquity = parseFloat(document.getElementById('costOfEquity').value);
+            const costOfDebt = parseFloat(document.getElementById('costOfDebt').value);
+            const taxRate = parseFloat(document.getElementById('taxRate').value);
+
+            // Validation
+            if (equity <= 0 && debt <= 0) {
+                showError('Either equity or debt must be greater than zero.');
+                return;
+            }
+
+            // Calculate total value
+            const totalValue = equity + debt;
+
+            // Calculate weights
+            const equityWeight = equity / totalValue;
+            const debtWeight = debt / totalValue;
+
+            // Calculate after-tax cost of debt
+            const afterTaxCostOfDebt = costOfDebt * (1 - taxRate / 100);
+
+            // Calculate WACC
+            const wacc = (equityWeight * costOfEquity) + (debtWeight * afterTaxCostOfDebt);
+
+            // Display results
+            document.getElementById('waccValue').textContent = wacc.toFixed(2) + '%';
+            document.getElementById('totalValue').textContent = '$' + formatNumber(totalValue);
+            document.getElementById('equityWeight').textContent = (equityWeight * 100).toFixed(2) + '%';
+            document.getElementById('debtWeight').textContent = (debtWeight * 100).toFixed(2) + '%';
+            document.getElementById('afterTaxDebt').textContent = afterTaxCostOfDebt.toFixed(2) + '%';
+
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function resetForm() {
+            document.getElementById('waccForm').reset();
+            document.getElementById('result').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+        }
+
+        function formatNumber(num) {
+            return num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+    </script>
+</body>
+</html>
