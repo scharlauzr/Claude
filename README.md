@@ -1,6 +1,6 @@
 # WACC Calculator
 
-A professional web-based calculator for computing the Weighted Average Cost of Capital (WACC).
+A professional calculator for computing the Weighted Average Cost of Capital (WACC), available in both web-based and Streamlit versions.
 
 ## What is WACC?
 
@@ -28,11 +28,42 @@ Where:
   - Total company value
   - Equity and debt weights
   - After-tax cost of debt
+  - Formula explanation
 - Input validation
 - Responsive design for mobile and desktop
 - Beautiful gradient design
 
-## Usage
+## 🚀 Streamlit Version (Recommended)
+
+### Local Usage
+
+1. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Run the Streamlit app:
+   ```bash
+   streamlit run app.py
+   ```
+
+3. Open your browser to `http://localhost:8501`
+
+### Deploy to Streamlit Cloud
+
+1. Push this repository to GitHub
+2. Go to [share.streamlit.io](https://share.streamlit.io)
+3. Sign in with GitHub
+4. Click "New app"
+5. Select your repository and branch
+6. Set Main file path to: `app.py`
+7. Click "Deploy"
+
+Your app will be live at: `https://[your-app-name].streamlit.app`
+
+## 🌐 HTML Version
+
+### Usage
 
 1. Open `index.html` in any modern web browser
 2. Enter the required values:
@@ -62,6 +93,12 @@ The WACC would be calculated as:
 
 ## Technologies
 
+### Streamlit Version
+- Python 3.7+
+- Streamlit
+- Modern responsive UI
+
+### HTML Version
 - Pure HTML5
 - CSS3 with modern gradients and animations
 - Vanilla JavaScript (no dependencies)
