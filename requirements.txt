@@ -1,0 +1,26 @@
+# Beta Estimation Using Comparable Firms
+# Python package requirements
+
+# Data manipulation and analysis
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Financial data
+yfinance>=0.2.28
+
+# Statistical analysis
+scipy>=1.10.0
+statsmodels>=0.14.0
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# OpenAI API (optional - only if using AI for comparable selection)
+openai>=0.27.0
+
+# Jupyter notebook widgets for interactive plots
+ipywidgets>=8.0.0
+
+# HTTP requests (for API calls)
+requests>=2.31.0
